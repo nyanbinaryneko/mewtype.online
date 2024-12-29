@@ -25,3 +25,9 @@ yarn-error.log*
 
 # package lock
 package-lock.json
+
+#ignore data/ content folder
+src/data/*
+
+#ignore .astro/ this is generated when the static site gen runs
+.astro/
