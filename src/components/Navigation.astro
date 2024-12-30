@@ -1,15 +1,16 @@
 ---
 import ResponsiveToggle from './ResponsiveToggle.astro'
 import { DarkMode } from 'accessible-astro-components'
-import { Image } from 'astro:assets'
-import logo from '../assets/img/logo.svg'
+import { Icon } from 'astro-icon/components'
+
+const { icon = 'solar:cat-broken', title = 'Mewtype Eevee' } = Astro.props
 ---
 
 <div id="main-navigation" class="is-desktop py-8">
   <div class="container">
     <a href="/" class="flex items-center gap-2 !no-underline">
-      <Image src={logo} alt="Your Logo" width="47" height="37" />
-      <span class="font-bold">Accessible Astro</span>
+      <Icon name={icon}  width="47" height="37" />
+      <span class="font-bold">Mewtype Eevee</span>
     </a>
     <div class="wrapper">
       <nav class="desktop-menu" aria-label="Main navigation desktop">
@@ -222,6 +223,8 @@ import logo from '../assets/img/logo.svg'
 
   #main-navigation {
     > .container {
+
+      
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
@@ -412,4 +415,5 @@ import logo from '../assets/img/logo.svg'
       }
     }
   }
+
 </style>
