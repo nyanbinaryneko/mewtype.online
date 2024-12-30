@@ -17,6 +17,8 @@ collections:
       - { label: "Summary", name: "excerpt", widget: "string" }
       # - { label: "Rating (scale of 1-5)", name: "rating", widget: "number" }
       - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Layout", name: "layout", widget: "hidden", default: ""}
+      - { label: "Author", name: "author", widget: "hidden", default: "eevee"}
     extension: "mdx"
     format: "frontmatter"
     

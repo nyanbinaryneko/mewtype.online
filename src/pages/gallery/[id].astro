@@ -1,0 +1,38 @@
+---
+import { getCollection, render } from 'astro:content'
+import DefaultLayout from '../../layouts/DefaultLayout.astro'
+import { Breadcrumbs, BreadcrumbsItem, Media} from 'accessible-astro-components'
+
+// 1. Generate a new path for every collection entry
+export async function getStaticPaths() {
+  const pics = await getCollection('gallery');
+  return pic.map(pic => ({
+    params: { id: pic.id },
+    props: { pic },
+  }));
+}
+// 2. For your template, you can get the entry directly from the prop
+const { pic } = Astro.props;
+const { Content } = await render(pic)
+console.log(Content)
+---
+<DefaultLayout title={pic.data.title} url={pic.id}>
+    <div class="container">
+      <div class="my-12">
+        <Breadcrumbs>
+          <BreadcrumbsItem href="/" label="Home" />
+          <BreadcrumbsItem href="/gallery" label="Gallery" />
+          <BreadcrumbsItem currentPage={true} label={pic.data.title} />
+        </Breadcrumbs>
+      </div>
+    </div>
+    <section class="my-12">
+      <div class="container">
+        <Media
+        src={pic.data.image.src},
+        alt={pic.data.imageAlt}
+        class="rounded-lg"
+       />
+      </div>
+    </section>
+</DefaultLayout>

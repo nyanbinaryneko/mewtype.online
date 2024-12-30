@@ -5,45 +5,46 @@ import { Pagination } from 'accessible-astro-components'
 import Card from "../../components/Card.astro"
 
 export async function getStaticPaths({ paginate }) {
-  const posts = await getCollection('blog');
-  posts.map((post) => {
-    console.debug(post)
+  const pics = await getCollection('gallery');
+  pics.map((pic) => {
+    console.debug(pic)
     return {
-      params: { id: post.id }
+      params: { id: pic.id }
     }
   });
-  return paginate(posts, { pageSize: 6,})
+  return paginate(pics, { pageSize: 6,})
 }
 const { page } = Astro.props
 ---
 
 <DefaultLayout
-  title="Blog"
-  description="Long form Posting and studies"
+  title="Gallery"
+  description="An example of a blog with dynamic content fetched from JSONPlaceholder using the title, body and userId."
 >
   <section class="my-12">
     <div class="space-content container">
       <h1>Blog</h1>
       <p class="text-2xl">
-        Long form Posting and studies I've completed
+        An example of a blog with dynamic content fetched from <a href="https://jsonplaceholder.typicode.com/pics"
+          >JSONPlaceholder</a
+        > using the title, body and userId. The Accessible Astro Card Component is used here to display al the pics.
       </p>
     </div>
   </section>
   <section class="my-12">
     <div class="container">
-      <p class="text-sm"><em>Post {page.start + 1} through {page.end + 1} of {page.total} total posts</em></p>
+      <p class="text-sm"><em>picture {page.start + 1} through {page.end + 1} of {page.total} total pictures</em></p>
       <ul class="my-3">
         {
-          page.data.map((post) => (
+          page.data.map((pic) => (
             <li>
               <Card
-                url={'/blog/' + post.id}
-                title={post.data.title}
-                footer={'by: ' + post.data.author}
-                img = {post.data.cover.src}
-                alt = {post.data.coverAlt}
+                url={'/gallery/' + pic.id}
+                title={pic.data.title}
+                footer={'by: ' + pic.data.author}
+                img = {pic.data.image.src}
+                alt = {pic.data.imageAlt}
               >
-                {post.data.excerpt}
               </Card>
             </li>
           ))
@@ -51,10 +52,10 @@ const { page } = Astro.props
       </ul>
       <div class="mt-12 grid place-content-center">
         <Pagination
-          firstPage={page.url.prev ? '/blog' : null}
+          firstPage={page.url.prev ? '/gallery' : null}
           previousPage={page.url.prev ? page.url.prev : null}
           nextPage={page.url.next ? page.url.next : null}
-          lastPage={page.url.next ? `/blog/${Math.round(page.total / page.size)}` : null}
+          lastPage={page.url.next ? `/gallery/${Math.round(page.total / page.size)}` : null}
           currentPage={page.currentPage}
           totalPages={Math.round(page.total / page.size)}
         />

@@ -14,6 +14,8 @@ export async function getStaticPaths() {
 // 2. For your template, you can get the entry directly from the prop
 const { post } = Astro.props;
 const { Content } = await render(post)
+console.log(Content)
+console.log(post)
 ---
 
 <DefaultLayout title={post.data.title} description={post.body} url={post.id}>
@@ -29,7 +31,7 @@ const { Content } = await render(post)
   <section class="my-12">
     <div class="container">
       <Media
-      src={post.data.cover},
+      src={post.data.cover.src},
       alt={post.data.coverAlt}
       class="rounded-lg"
      />

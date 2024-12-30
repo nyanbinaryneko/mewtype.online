@@ -14,6 +14,18 @@ const blogCollection = defineCollection({
     })
 })
 
+const galleryCollection = defineCollection({
+    loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: "src/data/gallery" }),
+    schema: ({ image }) => z.object({
+        title: z.string(),
+        image: image(),
+        imageAlt: z.string.optional(),
+        pubDate: z.coerce.date(),
+        author: z.string().optional(), 
+    })
+})
+
 export const collections = { 
     blog: blogCollection,
+    gallery: galleryCollection
  }
