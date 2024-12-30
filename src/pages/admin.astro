@@ -1,0 +1,31 @@
+---
+
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+    <title>Content Manager</title>
+  </head>
+  <body>
+    <script src="https://unpkg.com/decap-cms@^3.1.2/dist/decap-cms.js"></script>
+    <script> 
+import CMS from "decap-cms-app"
+      const mdx = require("grey-matter")
+      CMS.init();
+      CMS.registerCustomFormat("mdx", "mdx", {
+        fromFile: text => {
+          const { data, content } = mdx(text)
+          return { frontmatter: data, content }
+        }, 
+        toFile: value => {
+          const { frontmatter, content } = value
+          return mdx.stringify(content, frontmatter)
+        }
+      })
+    </script>
+  </body>
+</html>

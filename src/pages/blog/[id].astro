@@ -1,0 +1,67 @@
+---
+import { getCollection, render } from 'astro:content'
+import DefaultLayout from '../../layouts/DefaultLayout.astro'
+import { Breadcrumbs, BreadcrumbsItem, Media} from 'accessible-astro-components'
+
+
+// 1. Generate a new path for every collection entry
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+// 2. For your template, you can get the entry directly from the prop
+const { post } = Astro.props;
+const { Content } = await render(post)
+---
+
+<DefaultLayout title={post.data.title} description={post.body} url={post.id}>
+  <div class="container">
+    <div class="my-12">
+      <Breadcrumbs>
+        <BreadcrumbsItem href="/" label="Home" />
+        <BreadcrumbsItem href="/blog" label="Blog" />
+        <BreadcrumbsItem currentPage={true} label={post.data.title} />
+      </Breadcrumbs>
+    </div>
+  </div>
+  <section class="my-12">
+    <div class="container">
+      <Media
+      src={post.data.cover},
+      alt={post.data.coverAlt}
+      class="rounded-lg"
+     />
+    </div>
+  </section>
+  <section class="my-12">
+    <div class="container">
+      <h1>{post.data.title}</h1><br />
+      <p>By: {post.data.author}</p>
+    </div>
+  </section>
+  <section class="my-12">
+    <div class="container">
+      <Content/>
+    </div>
+  </section>
+</DefaultLayout>
+
+<style lang="scss">
+  ul {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 4rem;
+
+    @media (min-width: 550px) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 2rem;
+    }
+
+    @media (min-width: 950px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
