@@ -3,17 +3,17 @@ import type { CollectionEntry } from "astro:content"
 interface Props {
   post: CollectionEntry<'blog'>
 }
-const { post } = Astro.props
-console.log(post.data)
+const { post, id } = Astro.props
+const url = "/blog/" + id
 ---
 
 <div class="card">
   <div class="card__image">
-    <img src={post.data.cover} alt={post.data.coverAlt} />
+    <img src={post.cover.src} alt={post.coverAlt} />
   </div>
   <div class="card__content">
     <h3>
-      <a href= {post.id}>{post.data.title}</a>
+      <a href={url}>{post.title}</a>
     </h3>
     <p>
       <slot>Default description.</slot>
@@ -79,5 +79,10 @@ console.log(post.data)
   .card__content:last-child {
     margin-top: auto;
     padding-top: 2rem;
+  }
+
+  .card__content footer ul {
+    display: flex;
+    flex-wrap: wrap;
   }
 </style>

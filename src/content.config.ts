@@ -11,21 +11,11 @@ const blogCollection = defineCollection({
         updatedDate: z.coerce.date().optional(),
         author: z.string().optional(), 
         excerpt: z.string(), 
-    })
-})
-
-const galleryCollection = defineCollection({
-    loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: "src/data/gallery" }),
-    schema: ({ image }) => z.object({
-        title: z.string(),
-        image: image(),
-        imageAlt: z.string.optional(),
-        pubDate: z.coerce.date(),
-        author: z.string().optional(), 
+        tags: z.array(z.string()),
+        category: z.array(z.string())
     })
 })
 
 export const collections = { 
     blog: blogCollection,
-    gallery: galleryCollection
  }

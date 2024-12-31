@@ -2,14 +2,13 @@
 import { getCollection } from 'astro:content'
 import DefaultLayout from '../../layouts/DefaultLayout.astro'
 import { Pagination } from 'accessible-astro-components'
-import Card from "../../components/Card.astro"
+import BlogCard from "../../components/BlogCard.astro"
 
 export async function getStaticPaths({ paginate }) {
   const posts = await getCollection('blog');
   posts.map((post) => {
-    console.debug(post)
     return {
-      params: { id: post.id }
+      params: { id: post.id, }
     }
   });
   return paginate(posts, { pageSize: 6,})
@@ -36,15 +35,11 @@ const { page } = Astro.props
         {
           page.data.map((post) => (
             <li>
-              <Card
-                url={'/blog/' + post.id}
-                title={post.data.title}
-                footer={'by: ' + post.data.author}
-                img = {post.data.cover.src}
-                alt = {post.data.coverAlt}
+              <BlogCard post={ post.data }
+               id={ post.id }
               >
-                {post.data.excerpt}
-              </Card>
+                { post.data.excerpt }
+              </BlogCard>
             </li>
           ))
         }
