@@ -12,7 +12,7 @@ const blogCollection = defineCollection({
         author: z.string().optional(), 
         excerpt: z.string(), 
         tags: z.array(z.string()),
-        category: z.array(z.string())
+        categories: z.array(z.string())
     })
 })
 
