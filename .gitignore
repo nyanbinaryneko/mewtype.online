@@ -30,4 +30,4 @@ package-lock.json
 src/data/*
 
 #ignore .astro/ this is generated when the static site gen runs
-.astro/
+./astro
