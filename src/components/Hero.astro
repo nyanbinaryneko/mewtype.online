@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components'
 
-const { src = '/astronaut-hero-img.webp' } = Astro.props
+const { src = '/hero-img.jpg' } = Astro.props
 ---
 
 <section class="hero my-24">
@@ -11,21 +11,20 @@ const { src = '/astronaut-hero-img.webp' } = Astro.props
         <h1 class="text-center text-6xl md:text-left lg:text-8xl">
           <slot><span class="text-gradient">Mewtype</span> Eevee</slot>
         </h1>
+        <h3>Internet Pokemon and Snow leopard</h3>
+        <h3>Aspiring Digital Artist</h3>
+        <h4>Real life Funemployed Infrastructure Engineer</h4>
         <div class="flex flex-col gap-3 min-[500px]:flex-row">
-          <a class="button has-icon" href="https://ko-fi.com/mewtype">
+          <a class="button has-icon" href="https://ko-fi.com/mewtype" rel="external noopener noreferrer" title="Buy me a coffee on ko-fi">
             <Icon name="mdi:coffee-outline" />
             Buy Me a Coffee
           </a>
-          <!-- <a
-            class="button has-icon color-secondary"
-            href="https://github.com/markteekman/accessible-astro-starter/blob/main/README.md"
-          >
-            <Icon name="ion:bookmark-outline" />
-            Read the Docs
-          </a> -->
         </div>
       </div>
+      <div>
       <img class="hidden lg:block" src={src} alt="" decoding="async" />
+      <small>credit: <a href="https://bsky.app/profile/lynxvsjackalope.bsky.social" rel="external noopener noreferrer" title="Go to Chaii's bluesky">Chaii</a></small>
+    </div>
     </div>
   </div>
 </section>
