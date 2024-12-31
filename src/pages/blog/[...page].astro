@@ -2,7 +2,8 @@
 import { getCollection } from 'astro:content'
 import DefaultLayout from '../../layouts/DefaultLayout.astro'
 import { Pagination } from 'accessible-astro-components'
-import BlogCard from "../../components/BlogCard.astro"
+import BlogList from '../../components/BlogList.astro';
+import BlogListPageLayout from '../../layouts/BlogListPageLayout.astro';
 
 export async function getStaticPaths({ paginate }) {
   const posts = await getCollection('blog');
@@ -14,64 +15,18 @@ export async function getStaticPaths({ paginate }) {
   return paginate(posts, { pageSize: 6,})
 }
 const { page } = Astro.props
-
+console.log(page)
 ---
 
 <DefaultLayout
   title="Posts"
   description="Long form Posting and studies"
 >
-  <section class="my-12">
-    <div class="space-content container">
-      <h1>Posts</h1>
-      <p class="text-2xl">
-        Long form Posting and studies I've completed
-      </p>
-    </div>
-  </section>
-  <section class="my-12">
-    <div class="container">
-      <p class="text-sm"><em>Post {page.start + 1} through {page.end + 1} of {page.total} total posts</em></p>
-      <ul class="my-3">
-        {
-          page.data.map((post) => (
-            <li>
-              <BlogCard post={ post.data }
-               id={ post.id }
-              >
-                { post.data.excerpt }
-              </BlogCard>
-            </li>
-          ))
-        }
-      </ul>
-      <div class="mt-12 grid place-content-center">
-        <Pagination
-          firstPage={page.url.prev ? '/blog' : null}
-          previousPage={page.url.prev ? page.url.prev : null}
-          nextPage={page.url.next ? page.url.next : null}
-          lastPage={page.url.next ? `/blog/${Math.round(page.total / page.size)}` : null}
-          currentPage={page.currentPage}
-          totalPages={Math.round(page.total / page.size)}
-        />
-      </div>
-    </div>
-  </section>
+<BlogListPageLayout
+page={page}
+>
+Long form Posting and studies I've completed
+</BlogListPageLayout>
 </DefaultLayout>
 
-<style lang="scss">
-  ul {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 4rem;
 
-    @media (min-width: 550px) {
-      grid-template-columns: repeat(2, 1fr);
-      grid-gap: 2rem;
-    }
-
-    @media (min-width: 950px) {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-</style>

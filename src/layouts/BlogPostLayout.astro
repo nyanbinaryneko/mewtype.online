@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry, render } from "astro:content"
+import BlogCover from "../components/BlogCover.astro"
+import BlogHeader from "../components/BlogHeader.astro"
+import MarkdownLayout from "./MarkdownLayout.astro"
+
+interface Props
+{
+  post: CollectionEntry<'blog'>
+}
+const { post, } = Astro.props
+console.log(post)
+---
+
+<BlogCover
+src={post.data.cover.src}
+alt={post.coverAlt}
+/>
+<BlogHeader
+  title={post.data.title},
+  author={post.data.author},
+  pubDate={post.data.pubDate}
+/>  
+<section class="my-12">
+<MarkdownLayout>
+<slot></slot>
+</MarkdownLayout>
+</section>

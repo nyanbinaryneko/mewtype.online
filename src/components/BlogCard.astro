@@ -1,5 +1,7 @@
 ---
-import type { CollectionEntry } from "astro:content"  
+import type { CollectionEntry } from "astro:content"
+import  Pill  from "./Pill.astro"
+
 interface Props {
   post: CollectionEntry<'blog'>
 }
@@ -19,10 +21,24 @@ const url = "/blog/" + id
       <slot>Default description.</slot>
     </p>
   </div>
+  <div class="card__footer py-5">
+    <ul>
+      {
+        post.tags.map((tag) => (
+          <li><Pill tag={tag}>
+          </Pill>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
 </div>
 
-<style is:global>
+<style lang="scss">
+  @use '../assets/scss/base/breakpoint' as *;
+
   .card {
+    position: relative;
     display: flex;
     flex-direction: column;
     border: 2px solid black;
@@ -30,13 +46,59 @@ const url = "/blog/" + id
     max-width: 60ch;
     min-height: 100%;
     position: relative;
-    overflow: hidden;
     transition: box-shadow 0.15s ease-in-out;
+    overflow: visible !important;
+    
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    @include breakpoint(large) {
+      width: 100%;
+    }
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+    }
+
+    &::before {
+      inset: 0;
+      background-color: var(--neutral-100);
+      border: 2px solid var(--neutral-700);
+      border-radius: 0.5rem;
+      box-shadow: 0 0 0 5px var(--neutral-100);
+      z-index: 1;
+    }
+
+    &::after {
+      background-color: var(--action-color);
+      inset: 1.5em -1em -1em 1.5em;
+      border-radius: 1em;
+      z-index: 0;
+    }
+  }
+
+  :global(.darkmode .card::before) {
+    background-color: var(--dark-100);
+    box-shadow: 0 0 0 5px var(--dark-100);
+  
+  }
+
+  :global(.card [data-icon]) {
+    height: auto;
+    width: 4rem;
+    color: var(--action-color);
   }
 
   .card:hover,
   .card:focus-within {
-    box-shadow: 0 0 0 0.25rem;
+    box-shadow: 0 0 0 .25rem var(--action-color-state);;
+    &::after {
+      background-color: var(--action-color-state);
+    }
   }
 
   .card:focus-within a:focus {
@@ -80,9 +142,12 @@ const url = "/blog/" + id
     margin-top: auto;
     padding-top: 2rem;
   }
-
-  .card__content footer ul {
+  ul {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
+    gap: 1rem;
+    margin-right: 0.75rem;
+    justify-content: center;
   }
 </style>

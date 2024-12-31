@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import DefaultLayout from '../../../../layouts/DefaultLayout.astro';
+import BlogListPageLayout from '../../../../layouts/BlogListPageLayout.astro';
+
+export async function getStaticPaths({ paginate }) {
+  console.log("sanity checck")
+    const posts = await getCollection('blog');
+    const uniqueTags = [...new Set(posts.map((post) => post.data.tags).flat())]
+    console.log(uniqueTags)
+    return uniqueTags.flatMap((tag) => {
+      console.log(tag)
+      const filteredPosts = posts.filter((post) => post.data.tags.includes(tag))
+      console.log(filteredPosts)
+      return paginate(filteredPosts, {
+        params: { tag },
+        pageSize: 6
+      })
+    })
+  }
+  const { page } = Astro.props
+  const tag = Astro.params 
+  console.log(tag)
+---
+  
+  <DefaultLayout
+    title="Posts"
+    description="Long form Posting and studies"
+  >
+  <BlogListPageLayout
+  page={page}
+  >
+  Posts about {tag.tag}
+</BlogListPageLayout>
+  </DefaultLayout>

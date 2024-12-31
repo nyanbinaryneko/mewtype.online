@@ -1,23 +1,22 @@
 ---
 import { Icon } from 'astro-icon/components'
 
-const { icon = 'solar:cat-broken', title = 'Title' } = Astro.props
+const { icon = 'solar:cat-broken', title = 'Title', } = Astro.props
+const url = "/blog/tags/" + title.toLowerCase();
 ---
 
-<div class="feature flex flex-col gap-4">
+<div class="tag flex flex-col gap-4">
   <Icon name={icon} />
   <div class="content">
-    <h3>{title}</h3>
-    <p>
-      <slot>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, corporis.</slot>
-    </p>
+    <a href={url}><h3>{title}</h3></a>
+
   </div>
 </div>
 
 <style lang="scss">
   @use '../assets/scss/base/breakpoint' as *;
 
-  .feature {
+  .tag {
     position: relative;
     width: calc(100% - 0.5rem);
     padding: 2rem;
@@ -53,14 +52,27 @@ const { icon = 'solar:cat-broken', title = 'Title' } = Astro.props
       z-index: 0;
     }
   }
+  .tag:hover,
+  .tag:focus-within {
+    box-shadow: 0 0 0 .01rem var(--action-color-state);
+    &::after {
+      background-color: var(--action-color-state);
+  }
+}
 
-  :global(.feature [data-icon]) {
+  .tag:focus-within a:focus {
+    text-decoration: none;
+    box-shadow: none;
+    outline: none;
+  }
+
+  :global(.tag [data-icon]) {
     height: auto;
     width: 4rem;
     color: var(--action-color);
   }
 
-  :global(.darkmode .feature::before) {
+  :global(.darkmode .tag::before) {
     background-color: var(--dark-100);
     box-shadow: 0 0 0 6px var(--dark-100);
   }

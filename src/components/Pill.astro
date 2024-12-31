@@ -1,0 +1,66 @@
+---
+const { tag } = Astro.props
+const url = "/blog/tags/" + tag
+---
+
+<div class="pill flex flex-col gap-2">
+  <div class="content">
+    <p>
+      { tag ? <a href={url}>{tag}</a> : "" }
+      <slot>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, corporis.</slot>
+    </p>
+  </div>
+</div>
+
+<style lang="scss">
+  @use '../assets/scss/base/breakpoint' as *;
+
+  .pill {
+    position: relative;
+    width: calc(100% - 0.5rem);
+    padding: .5rem;
+    justify-content: center;
+    align-items: center;
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    @include breakpoint(large) {
+      width: 100%;
+    }
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+    }
+
+    &::before {
+      inset: 0;
+      background-color: var(--neutral-100);
+      border: 3px solid var(--neutral-700);
+      border-radius: 1rem;
+      box-shadow: 0 0 0 6px var(--neutral-100);
+      z-index: 1;
+    }
+
+    &::after {
+      background-color: var(--primary-100);
+      inset: .5rem -0.5rem -0.5rem .5rem;
+      border-radius: 1rem;
+      z-index: 0;
+    }
+  }
+
+  :global(.pill [data-icon]) {
+    height: auto;
+    width: 4rem;
+    color: var(--primary-color-100);
+  }
+
+  :global(.darkmode .pill::before) {
+    background-color: var(--dark-100);
+    box-shadow: 0 0 0 6px var(--dark-100);
+  }
+</style>

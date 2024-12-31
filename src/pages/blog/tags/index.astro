@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content'
+import Tag from "../../../components/Tag.astro"
+import { Breadcrumbs,BreadcrumbsItem } from 'accessible-astro-components';
+import DefaultLayout from '../../../layouts/DefaultLayout.astro';
+import { render } from 'astro/dist/runtime/server';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog'); // get all posts
+  // create list of tags, no dupes
+  const tags = new Set()
+
+  for(const post of posts){
+    for(const tag of post.data.tags){
+        tags.add(tag.toLowerCase())
+    }
+  }
+  const tagsArray = Array.from(tags).map((tag) => {
+    return { 
+        params: { tag: tag }
+    }
+  })
+
+  return tagsArray
+}
+const allPosts = await getCollection('blog')
+const tags = [...new Set(allPosts.map((post) => post.data.tags).flat())]
+console.log(tags)
+---
+<DefaultLayout title="Tags" description="List of tags used in posts">
+    <div class="container">
+        <div class="my-12">
+          <Breadcrumbs>
+            <BreadcrumbsItem href="/" label="Home" />
+            <BreadcrumbsItem href="/blog/" label="Blog" />
+            <BreadcrumbsItem currentPage={true} label= "Tags" />
+          </Breadcrumbs>
+        </div>
+      </div>
+    <section class="my-12">
+        <div class="space-content container">
+          <h1>Tags</h1>
+          <p class="text-2xl">
+            Tags that have been used in posts
+          </p>
+          <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+            {
+                tags.map((tag) => (
+                    <Tag title={tag}></Tag>
+                ))
+            }
+          </div>
+        </div>
+    </section>
+
+</DefaultLayout>
