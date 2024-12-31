@@ -1,0 +1,14 @@
+---
+import { Media } from "accessible-astro-components"
+
+const { src, alt } = Astro.props
+---
+<section class="my-12">
+    <div class="container">
+      <Media
+      src={src},
+      alt={alt}
+      class="rounded-lg"
+     />
+    </div>
+  </section>

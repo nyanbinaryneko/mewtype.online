@@ -14,15 +14,16 @@ export async function getStaticPaths({ paginate }) {
   return paginate(posts, { pageSize: 6,})
 }
 const { page } = Astro.props
+
 ---
 
 <DefaultLayout
-  title="Blog"
+  title="Posts"
   description="Long form Posting and studies"
 >
   <section class="my-12">
     <div class="space-content container">
-      <h1>Blog</h1>
+      <h1>Posts</h1>
       <p class="text-2xl">
         Long form Posting and studies I've completed
       </p>

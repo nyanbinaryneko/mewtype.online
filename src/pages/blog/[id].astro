@@ -1,8 +1,10 @@
 ---
 import { getCollection, render } from 'astro:content'
 import DefaultLayout from '../../layouts/DefaultLayout.astro'
-import { Breadcrumbs, BreadcrumbsItem, Media} from 'accessible-astro-components'
+import { Breadcrumbs, BreadcrumbsItem,} from 'accessible-astro-components'
 import MarkdownLayout from '../../layouts/MarkdownLayout.astro';
+import BlogHeader from '../../components/BlogHeader.astro'
+import BlogCover from '../../components/BlogCover.astro';
 
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
@@ -15,6 +17,7 @@ export async function getStaticPaths() {
 // 2. For your template, you can get the entry directly from the prop
 const { post } = Astro.props;
 const { Content } = await render(post)
+console.log(Astro.url)
 ---
 
 <DefaultLayout title={post.data.title} description={post.body} url={post.id}>
@@ -27,27 +30,19 @@ const { Content } = await render(post)
       </Breadcrumbs>
     </div>
   </div>
+  <BlogCover
+    src={post.data.cover.src}
+    alt={post.coverAlt}
+  />
+    <BlogHeader
+      title={post.data.title},
+      author={post.data.author},
+      pubDate={post.data.pubDate}
+    />  
   <section class="my-12">
-    <div class="container">
-      <Media
-      src={post.data.cover.src},
-      alt={post.data.coverAlt}
-      class="rounded-lg"
-     />
-    </div>
-  </section>
-  <section class="my-12">
-    <div class="container">
-      <h1>{post.data.title}</h1><br />
-      <p>By: {post.data.author}</p>
-    </div>
-  </section>
-  <section class="my-12">
-    <div class="container">
-      <MarkdownLayout>
-        <Content/>
-      </MarkdownLayout>
-    </div>
+    <MarkdownLayout>
+      <Content/>
+    </MarkdownLayout>
   </section>
 </DefaultLayout>
 

@@ -1,0 +1,20 @@
+---
+
+const { title, author, pubDate } = Astro.props
+
+const dateOptions: object = {
+	year: "4-digit",
+	month: "numeric",
+	day: "numeric",
+};
+
+const formattedPublishDate = new Date(pubDate).toLocaleDateString("en-US", dateOptions);
+---
+<section class="my-12">
+    <div class="container">
+        <h1>{title}</h1>
+        <div class="container">
+            <h5>by: {author}, {formattedPublishDate}</h5> 
+        </div>
+    </div>
+</section>
