@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import DefaultLayout from '../../../../layouts/DefaultLayout.astro';
 import BlogListPageLayout from '../../../../layouts/BlogListPageLayout.astro';
+import { Breadcrumbs, BreadcrumbsItem } from 'accessible-astro-components';
 
 export async function getStaticPaths({ paginate }) {
   console.log("sanity checck")
@@ -20,13 +21,22 @@ export async function getStaticPaths({ paginate }) {
   }
   const { page } = Astro.props
   const tag = Astro.params 
-  console.log(tag)
 ---
   
   <DefaultLayout
     title="Posts"
     description="Long form Posting and studies"
   >
+  <div class="container">
+    <div class="my-12">
+      <Breadcrumbs>
+        <BreadcrumbsItem href="/" label="Home" />
+        <BreadcrumbsItem href="/blog/" label="Blog" />
+        <BreadcrumbsItem href="/tags/" label="Tags" />
+        <BreadcrumbsItem currentPage={true} label={tag} />
+      </Breadcrumbs>
+    </div>
+  </div>
   <BlogListPageLayout
   page={page}
   >

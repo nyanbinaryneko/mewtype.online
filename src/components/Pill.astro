@@ -7,7 +7,7 @@ const url = "/blog/tags/" + tag
   <div class="content">
     <p>
       { tag ? <a href={url}>{tag}</a> : "" }
-      <slot>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, corporis.</slot>
+      <slot></slot>
     </p>
   </div>
 </div>
@@ -53,10 +53,28 @@ const url = "/blog/tags/" + tag
     }
   }
 
+  .pill a {
+    text-decoration: none;
+    color: var(--primary-100);
+  }
+
+  .pill a:hover,
+  .pill:focus {
+    color: var(--primary-300);
+  }
+
+  .pill:hover,
+  .pill:focus-within {
+    box-shadow: 0 0 0 .01rem var(--primary-300);
+    &::after {
+      background-color: var(--primary-300);
+    }
+  }
+
   :global(.pill [data-icon]) {
     height: auto;
     width: 4rem;
-    color: var(--primary-color-100);
+    color: var(--primary-100);
   }
 
   :global(.darkmode .pill::before) {

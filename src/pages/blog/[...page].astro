@@ -1,8 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 import DefaultLayout from '../../layouts/DefaultLayout.astro'
-import { Pagination } from 'accessible-astro-components'
-import BlogList from '../../components/BlogList.astro';
+import { Breadcrumbs, BreadcrumbsItem, } from 'accessible-astro-components'
 import BlogListPageLayout from '../../layouts/BlogListPageLayout.astro';
 
 export async function getStaticPaths({ paginate }) {
@@ -22,6 +21,14 @@ console.log(page)
   title="Posts"
   description="Long form Posting and studies"
 >
+<div class="container">
+  <div class="my-12">
+    <Breadcrumbs>
+      <BreadcrumbsItem href="/" label="Home" />
+      <BreadcrumbsItem href="/blog/" label="Blog" />
+    </Breadcrumbs>
+  </div>
+</div>
 <BlogListPageLayout
 page={page}
 >
