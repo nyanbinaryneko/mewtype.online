@@ -1,8 +1,8 @@
 # local_backend: true # uncomment for local deveopment
 backend:
-  name: github
-  repo: nyanbinaryneko/mewtype.online
-  branch: main
+  name: "github"
+  repo: "nyanbinaryneko/mewtype.online"
+  branch: "main"
 media_folder: "src/assets/images" # Location where files will be stored in the repo
 public_folder: "../../assets/images" # The src attribute for uploaded media
 collections:
