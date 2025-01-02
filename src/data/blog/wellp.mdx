@@ -1,0 +1,84 @@
+---
+layout: ""
+title: Wellp.
+cover: ../../assets/images/bafkreid7zsugfo7vr7qqhiwbt2v2ezqckg4rgyt3kbkcmmliazraqgcm2e.jpg
+coverAlt: "Char in Gundam-san looking frustrated: I'm so annoyed right now."
+pubDate: 2025-01-02T10:30:00.000Z
+excerpt: I was able to check a couple things off of my dev to-do, at the very least.
+author: eevee
+tags:
+  - astro
+  - dev_log
+  - tasks
+categories:
+  - post
+---
+
+import ContentMedia from "../../components/ContentMedia.astro"
+import linkrot from "../../assets/images/linkrot.png"
+
+# On Linking Images
+
+It wasn't made very clear in [Astro's documentation (in my opinion)](https://docs.astro.build/en/guides/images/#images-in-mdx-files), but in order to use an image that's been processed and uploaded into assets, it must first be imported into the `.mdx` file. Example below:
+
+This does not work:
+```
+---
+title: test post
+...
+---
+import ContentMedia from "../../components/ContentMedia.astro"
+
+This is a test post
+<ContentMedia imgSrc="../../assets/images/testpost.jpg"> This will 404</ContentMedia>
+```
+
+However, this does work:
+```
+---
+title: test post
+...
+---
+import ContentMedia from "../../components/ContentMedia.astro"
+import test from "../../assets/images/testpost.jpg"
+
+This is a test post
+<ContentMedia imgSrc="../../assets/images/testpost.jpg" /> This will not 404</ContentMedia>
+```
+The linked documentation gives examples of using an image from the `src` directory, but I had assumed I did not need to import the images I wanted to use because the final example, which is using the traditional markdown image call, does not used the imported image source, but instead that image's relative path. This also explains why it seemed like I could use images I had put into the markdown from the rich text editor, and literally no other way.
+
+# On link rot
+
+<ContentMedia imgSrc={linkrot.src} alt="a screenshot from bluesky, showing the solution I had found for unfucking decap cms on netlify.">
+On bluesky, I had posted about the [CORS issue](https://bsky.app/profile/mewtype.online/post/3lenef6ndfs2z) I was having with the Netlify Identity Widget. No matter what I tried, every solution did not work, I added `_headers`, I added the relevant lines to my `netlify.toml`, . A consistent thing in every one of my searches was a link to Netlify's forums back when decap-cms was still netlify-cms. This link, of course, 404s. The solution to this was to add `is:inline` to the script tag loading the Netlify Identification Widget.
+</ContentMedia>
+
+My `admin.astro` for `decap-cms`:
+```
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+    <title>Content Manager</title>
+  </head>
+  <body>
+<!-- add is:inline to this script below to make the cors issue stop --!>
+    <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://unpkg.com/decap-cms@^3.1.2/dist/decap-cms.js"></script>
+    <script> 
+import CMS from "decap-cms-app"
+      const mdx = require("grey-matter")
+      CMS.init();
+      CMS.registerCustomFormat("mdx", "mdx", {
+        fromFile: text => {
+          const { data, content } = mdx(text)
+          return { frontmatter: data, content }
+        }, 
+        toFile: value => {
+          const { frontmatter, content } = value
+          return mdx.stringify(content, frontmatter)
+        }
+      })
+    </script>
+  </body>
+</html>
+```
+
+Anyway, if anyone else finds this useful, great, otherwise I'm just writing it for my own notes and reminders to myself.
