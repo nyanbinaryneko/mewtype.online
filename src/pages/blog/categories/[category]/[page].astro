@@ -6,10 +6,12 @@ import { Breadcrumbs, BreadcrumbsItem } from 'accessible-astro-components';
 
 export async function getStaticPaths({ paginate }) {
     const posts = await getCollection('blog');
-    const uniqueCategories = [...new Set(posts.map((post) => post.data.categories).flat())]
+    const descPosts = [...posts].sort(
+    (a, b) => b.data.pubDate - a.data.pubDate
+    )
+    const uniqueCategories = [...new Set(descPosts.map((post) => post.data.categories).flat())]
     return uniqueCategories.flatMap((category) => {
-      console.log(category)
-      const filteredPosts = posts.filter((post) => post.data.categories.includes(category))
+      const filteredPosts = descPosts.filter((post) => post.data.categories.includes(category))
       console.log(filteredPosts)
       return paginate(filteredPosts, {
         params: { category },

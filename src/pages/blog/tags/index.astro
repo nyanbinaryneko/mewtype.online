@@ -3,7 +3,6 @@ import { getCollection } from 'astro:content'
 import Tag from "../../../components/Tag.astro"
 import { Breadcrumbs,BreadcrumbsItem } from 'accessible-astro-components';
 import DefaultLayout from '../../../layouts/DefaultLayout.astro';
-import { render } from 'astro/dist/runtime/server';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog'); // get all posts

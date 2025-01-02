@@ -5,14 +5,13 @@ import BlogListPageLayout from '../../../../layouts/BlogListPageLayout.astro';
 import { Breadcrumbs, BreadcrumbsItem } from 'accessible-astro-components';
 
 export async function getStaticPaths({ paginate }) {
-  console.log("sanity checck")
     const posts = await getCollection('blog');
-    const uniqueTags = [...new Set(posts.map((post) => post.data.tags).flat())]
-    console.log(uniqueTags)
+    const descPosts = [...posts].sort(
+    (a, b) => b.data.pubDate - a.data.pubDate
+    )
+    const uniqueTags = [...new Set(descPosts.map((post) => post.data.tags).flat())]
     return uniqueTags.flatMap((tag) => {
-      console.log(tag)
-      const filteredPosts = posts.filter((post) => post.data.tags.includes(tag))
-      console.log(filteredPosts)
+      const filteredPosts = descPosts.filter((post) => post.data.tags.includes(tag))
       return paginate(filteredPosts, {
         params: { tag },
         pageSize: 6

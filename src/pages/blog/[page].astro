@@ -6,15 +6,19 @@ import BlogListPageLayout from '../../layouts/BlogListPageLayout.astro';
 
 export async function getStaticPaths({ paginate }) {
   const posts = await getCollection('blog');
-  posts.map((post) => {
+  const descPosts = [...posts].sort(
+    (a, b) => b.data.pubDate - a.data.pubDate
+  )
+
+  descPosts.map((post) => {
+    console.log("post pubDate "+post.data.pubDate)
     return {
       params: { id: post.id, }
     }
   });
-  return paginate(posts, { pageSize: 6,})
+  return paginate(descPosts, { pageSize: 6,})
 }
 const { page } = Astro.props
-console.log(page)
 ---
 
 <DefaultLayout
