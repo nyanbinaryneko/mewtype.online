@@ -18,7 +18,7 @@ const { Content } = await render(post)
 console.log(post)
 ---
 
-<DefaultLayout title={post.data.title} description={post.body} url={post.id}>
+<DefaultLayout title={post.data.title} description={post.data.excerpt} url={post.id}>
   <div class="container">
     <div class="my-12">
       <Breadcrumbs>
