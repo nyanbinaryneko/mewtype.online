@@ -6,3 +6,4 @@
 [[redirects]]
 from = "https://cyber.mewtype.online"
 to = "https://neerautomata.com"
+force = true
