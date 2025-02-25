@@ -12,11 +12,9 @@
   </head>
   <body>
     <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="https://unpkg.com/decap-cms@^3.6.2/dist/decap-cms.js"></script>
+    <script is:inline src="https://unpkg.com/decap-cms@^3.6.2/dist/decap-cms.js"></script>
     <script> 
-import CMS from "decap-cms-app"
       const mdx = require("grey-matter")
-      CMS.init();
       CMS.registerCustomFormat("mdx", "mdx", {
         fromFile: text => {
           const { data, content } = mdx(text)
